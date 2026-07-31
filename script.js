@@ -1,49 +1,171 @@
-// Gayon Creative Studio
 
-// Smooth fade-in animation
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      entry.target.style.opacity = "1";
-      entry.target.style.transform = "translateY(0)";
+/*=========================================
+  Gayon Creative Studio
+  script.js
+=========================================*/
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    /*==============================
+      Sticky Header
+    ==============================*/
+    const header = document.querySelector(".header");
+
+    window.addEventListener("scroll", () => {
+        if (window.scrollY > 50) {
+            header.classList.add("sticky");
+        } else {
+            header.classList.remove("sticky");
+        }
+    });
+
+    /*==============================
+      Smooth Scroll
+    ==============================*/
+    const navLinks = document.querySelectorAll('a[href^="#"]');
+
+    navLinks.forEach(link => {
+
+        link.addEventListener("click", function (e) {
+
+            const target = document.querySelector(this.getAttribute("href"));
+
+            if (target) {
+
+                e.preventDefault();
+
+                target.scrollIntoView({
+                    behavior: "smooth"
+                });
+
+            }
+
+        });
+
+    });
+
+    /*==============================
+      Scroll Animation
+    ==============================*/
+
+    const reveals = document.querySelectorAll(
+        ".service-card, .portfolio-card, .testimonial-card, .price-card, .why-box, .about-content, .about-image"
+    );
+
+    function revealOnScroll() {
+
+        const windowHeight = window.innerHeight;
+
+        reveals.forEach(element => {
+
+            const top = element.getBoundingClientRect().top;
+
+            if (top < windowHeight - 120) {
+
+                element.classList.add("show");
+
+            }
+
+        });
+
     }
-  });
+
+    revealOnScroll();
+
+    window.addEventListener("scroll", revealOnScroll);
+
+    /*==============================
+      Active Navigation
+    ==============================*/
+
+    const sections = document.querySelectorAll("section");
+
+    function activeMenu() {
+
+        let current = "";
+
+        sections.forEach(section => {
+
+            const sectionTop = section.offsetTop - 120;
+
+            if (pageYOffset >= sectionTop) {
+
+                current = section.getAttribute("id");
+
+            }
+
+        });
+
+        document.querySelectorAll(".navbar a").forEach(link => {
+
+            link.classList.remove("active");
+
+            if (link.getAttribute("href") === "#" + current) {
+
+                link.classList.add("active");
+
+            }
+
+        });
+
+    }
+
+    window.addEventListener("scroll", activeMenu);
+
 });
 
-document.querySelectorAll("section").forEach((section) => {
-  section.style.opacity = "0";
-  section.style.transform = "translateY(40px)";
-  section.style.transition = "all 0.8s ease";
-  observer.observe(section);
-});
+/*=========================================
+ Back To Top Button
+=========================================*/
 
-// Back to top button
-const button = document.createElement("button");
-button.innerHTML = "↑";
-button.id = "topBtn";
+const topButton = document.createElement("button");
 
-button.style.position = "fixed";
-button.style.bottom = "20px";
-button.style.right = "20px";
-button.style.padding = "12px 16px";
-button.style.border = "none";
-button.style.borderRadius = "50%";
-button.style.background = "#c78c7b";
-button.style.color = "#fff";
-button.style.cursor = "pointer";
-button.style.display = "none";
-button.style.fontSize = "18px";
-button.style.boxShadow = "0 4px 10px rgba(0,0,0,0.2)";
+topButton.innerHTML = "↑";
 
-document.body.appendChild(button);
+topButton.id = "topBtn";
+
+document.body.appendChild(topButton);
 
 window.addEventListener("scroll", () => {
-  button.style.display = window.scrollY > 300 ? "block" : "none";
+
+    if (window.scrollY > 400) {
+
+        topButton.classList.add("show");
+
+    } else {
+
+        topButton.classList.remove("show");
+
+    }
+
 });
 
-button.addEventListener("click", () => {
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
+topButton.addEventListener("click", () => {
+
+    window.scrollTo({
+
+        top: 0,
+
+        behavior: "smooth"
+
+    });
+
 });
+
+/*=========================================
+ Mobile Menu (Future Ready)
+=========================================*/
+
+const menuToggle = document.querySelector(".menu-toggle");
+
+const navbar = document.querySelector(".navbar");
+
+if (menuToggle) {
+
+    menuToggle.addEventListener("click", () => {
+
+        navbar.classList.toggle("open");
+
+    });
+
+}
