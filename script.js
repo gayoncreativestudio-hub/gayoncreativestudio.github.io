@@ -136,4 +136,4 @@ buttons.forEach(button => {
 // Console Message
 // =====================================
 
-console.log("✨ Gayon Creative Studio Website Loaded Successfully!");
+console.log("✨Gayon Creative Studio Website Loaded Successfully!");
